@@ -8,9 +8,18 @@ def home(request):
 
 
 def about(request):
-    return render(request, 'wordcount/about.html')
+    return render(request, 'wordcount/about.html')    
 
 
 def count(request):
-    return render(request,'wordcount/count.html')   
+    text = request.GET['fulltext']
+    words = text.split()
+    word_dictionary = {}
 
+    for word in words:
+        if word in word_dictionary:
+            word_dictionary[word] +=1
+        else:
+            word_dictionary[word] =1
+
+    return render(request,'count.html', {'fulltext':text, 'countTotal': len(words), 'dictionary': word_dictionary.items()})   
